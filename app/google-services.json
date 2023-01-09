@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "10008801357",
+    "firebase_url": "https://android-895c1-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "android-895c1",
+    "storage_bucket": "android-895c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10008801357:android:bf0a95a6857d7e02bcac04",
+        "android_client_info": {
+          "package_name": "com.nadim.atlaspackaging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10008801357-t3o8pjgv98c26mr4itive5v981nn0md5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYbz_W0pk7IH55eUhoydc6oDr9U4kK5Sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10008801357-t3o8pjgv98c26mr4itive5v981nn0md5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
