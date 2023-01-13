@@ -28,20 +28,12 @@ class MainScreenViewModel @Inject constructor (
     val userEmail : State <String> = _userEmail
 
 
-    // this variable is used to give the appropriate machine name based on the user email
+    // this variable is used to give the appropriate machine name based on the user's email
     private val _user = mutableStateOf("")
     val user : State <String> = _user
 
     init {
         val email = auth.currentUser?.email
-//        _user.value = when (auth.currentUser?.email.toString()){
-//            "sealer@atlaspackaging.com" -> "Hot Sealer"
-//            "flexo@atlaspackaging.com"  -> "Flexo"
-//            "decoupeone@atlaspackaging.com" -> "Découpe 1"
-//            "decoupetwo@atlaspackaging.com" -> "Découpe 2"
-//            "decoupethree@atlaspackaging.com" -> "Découpe 3"
-//            "admin@atlaspackaging.com" -> "Admin"
-//            else -> "null"
         if(!email.isNullOrEmpty()) _user.value = email.removeSuffix("@atlaspackaging.com")
             .capitalize(Locale.current)
     }

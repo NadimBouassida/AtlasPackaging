@@ -8,7 +8,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
-import com.nadim.atlaspackaging.daily_production_feature.domain.model.DataModel
+import com.nadim.atlaspackaging.models.Production
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ class DailyProductionViewModel @Inject constructor (
     @Named("db") private val db: FirebaseDatabase
     ) : ViewModel() {
 
-    var dataState by mutableStateOf(DataModel())
+    var dataState by mutableStateOf(Production())
     private val calendar: Calendar = Calendar.getInstance()
     private val datePicker = DatePicker(calendar = calendar)
     private val _date = mutableStateOf("")
@@ -141,7 +141,7 @@ class DailyProductionViewModel @Inject constructor (
         )
 
         val dataList = mutableStateListOf<String>()
-        DataModel::class.memberProperties.forEach { member ->
+        Production::class.memberProperties.forEach { member ->
             val value = member.get(dataState) as String
             dataList.add(value)
         }
@@ -163,7 +163,7 @@ class DailyProductionViewModel @Inject constructor (
     }
 
     private fun clearAllItems() {
-        dataState = DataModel()
+        dataState = Production()
     }
 
     fun resetShowSnackBarValue() {

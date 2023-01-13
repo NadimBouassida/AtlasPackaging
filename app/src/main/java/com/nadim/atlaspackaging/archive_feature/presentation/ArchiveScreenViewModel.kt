@@ -1,15 +1,11 @@
 package com.nadim.atlaspackaging.archive_feature.presentation
 
-
-
-
 import android.os.Environment
-import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
-import com.nadim.atlaspackaging.archive_feature.domain.model.ArchiveModel
+import com.nadim.atlaspackaging.models.Production
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,11 +20,11 @@ import javax.inject.Named
 class ArchiveScreenViewModel @Inject constructor(
     @Named("db") private val db: FirebaseDatabase,
 ) : ViewModel() {
-    var data  by mutableStateOf(ArchiveModel())
+    var data  by mutableStateOf(Production())
 
-    var selectedData by mutableStateOf(ArchiveModel())
+    var selectedData by mutableStateOf(Production())
 
-    var dataToBeDeleted by mutableStateOf(ArchiveModel())
+    var dataToBeDeleted by mutableStateOf(Production())
 
     private val _search = mutableStateOf("")
     val search : State <String> = _search
@@ -36,12 +32,12 @@ class ArchiveScreenViewModel @Inject constructor(
     private val _searchType = mutableStateOf("client")
     val searchType : State <String> = _searchType
 
-    private var _dataList = mutableStateListOf<ArchiveModel>()
-    val dataList: List<ArchiveModel> = _dataList
+    private var _dataList = mutableStateListOf<Production>()
+    val dataList: List<Production> = _dataList
 
-    private var _secondaryDataList = mutableStateListOf<ArchiveModel>()
+    private var _secondaryDataList = mutableStateListOf<Production>()
 
-    fun setSelectedDataValue(data: ArchiveModel){
+    fun setSelectedDataValue(data: Production){
         selectedData = data
     }
 
@@ -50,7 +46,7 @@ class ArchiveScreenViewModel @Inject constructor(
     fun downloadData(machine: String) {
         _dataList.clear()
         _secondaryDataList.clear()
-        data = ArchiveModel(machine = machine)
+        data = Production(machine = machine)
         viewModelScope.launch (Dispatchers.IO){
             db.getReference(machine).keepSynced(true)
             db.getReference(machine)
@@ -121,7 +117,7 @@ class ArchiveScreenViewModel @Inject constructor(
 
     }
 
-    fun setItemToBeDeleted(data: ArchiveModel){
+    fun setItemToBeDeleted(data: Production){
         dataToBeDeleted = data
     }
 

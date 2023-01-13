@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nadim.atlaspackaging.R
 
@@ -29,26 +30,20 @@ fun CustomList(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 60.dp)
-                ,
-                horizontalArrangement = Arrangement.End
-            ){
-                IconButton(onClick = onIconClick) {
-                    Image(
-                        modifier = Modifier
-                            .size(30.dp)
-                            .background(color = Color.Red, shape = RoundedCornerShape(5.dp)),
-                        painter = painterResource(id = R.drawable.ic_close),
-                        contentDescription = "Close"
-                    )
-                }
+            IconButton(modifier = Modifier
+                .align(Alignment.End).size(30.dp),
+                onClick = onIconClick) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Color.Red, shape = RoundedCornerShape(5.dp)),
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = "Close"
+                )
             }
             LazyColumn {
                 items(itemsList) {
-                    CustomListItem(
+                    ListItem(
                         text = it.toString(),
                         onClick = {
                             onItemClick(it.toString())
@@ -58,4 +53,12 @@ fun CustomList(
             }
         }
     }
+}
+
+
+@Preview
+@Composable
+fun CustomListPreview(){
+    val list = listOf("item one", "item2", "item3")
+    CustomList(onIconClick = {}, onItemClick = {}, itemsList = list)
 }

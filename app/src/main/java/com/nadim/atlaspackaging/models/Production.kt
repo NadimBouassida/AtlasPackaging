@@ -1,9 +1,8 @@
-package com.nadim.atlaspackaging.archive_feature.domain.model
+package com.nadim.atlaspackaging.models
 
-
-data class ArchiveModel(
-    val machine: String = "",
+data class Production(
     val date: String = "",
+    val machine: String = "",
     val conductor: String = "",
     val article: String = "",
     val post: String = "",
