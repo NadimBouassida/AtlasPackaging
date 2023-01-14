@@ -1,6 +1,6 @@
 package com.nadim.atlaspackaging.models
 
-data class Production(
+data class ProductionData(
     val date: String = "",
     val machine: String = "",
     val conductor: String = "",

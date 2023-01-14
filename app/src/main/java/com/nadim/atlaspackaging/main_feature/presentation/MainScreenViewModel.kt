@@ -1,27 +1,36 @@
 package com.nadim.atlaspackaging.main_feature.presentation
 
 
+import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
 class MainScreenViewModel @Inject constructor (
+    @Named("db") private val db: FirebaseDatabase,
     @Named("auth") private val auth: FirebaseAuth
         ) : ViewModel() {
-    val machineList = listOf(
-        "Flexo",
-        "Découpe1",
-        "Découpe2",
-        "Découpe3",
-        "Sealer"
-    )
+
+    // the list is located on the database so it will be easy
+    // to manipulate without having to change the code
+    private val _machineList = mutableStateListOf("Flexo")
+    val machineList: SnapshotStateList<String> = _machineList
 
     // this variable is used to display the email address in the top app bar
     private val _userEmail = mutableStateOf(auth.currentUser?.email.toString())
@@ -34,8 +43,25 @@ class MainScreenViewModel @Inject constructor (
 
     init {
         val email = auth.currentUser?.email
+
         if(!email.isNullOrEmpty()) _user.value = email.removeSuffix("@atlaspackaging.com")
             .capitalize(Locale.current)
+
+        viewModelScope.launch (Dispatchers.IO){
+            db.getReference("machine").keepSynced(true)
+            db.getReference("machine")
+            .addValueEventListener( object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { child ->
+                        if(child.value.toString() == "Flexo") return@forEach
+                        _machineList.add(child.value.toString())
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.i("DatabaseError", error.message)
+                }
+            })
+        }
     }
 
     fun logOut(){

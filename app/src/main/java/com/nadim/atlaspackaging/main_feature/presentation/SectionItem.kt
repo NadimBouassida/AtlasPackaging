@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nadim.atlaspackaging.R
 
@@ -24,13 +25,17 @@ fun SectionItem(
     onClick: () -> Unit,
 ){
     Card (
-        modifier = Modifier.clickable { onClick() }.padding(5.dp),
+        modifier = Modifier
+            .clickable { onClick() }
+            .padding(5.dp),
         elevation = 10.dp,
         shape = RoundedCornerShape(15.dp),
         backgroundColor = Color.LightGray,
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth().height(200.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.atlas_background),
@@ -39,7 +44,8 @@ fun SectionItem(
                 modifier = Modifier.padding(top = 20.dp)
             )
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
@@ -50,8 +56,20 @@ fun SectionItem(
                         )
                     )
                 )
-            Text(modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 12.dp),
+            Text(modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 12.dp),
             text = machine, style = MaterialTheme.typography.body1, color = Color.White)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SectionItemPreview(){
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+        SectionItem(machine = "") {
+
         }
     }
 }
