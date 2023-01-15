@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production_feature.presentation.components
+package com.nadim.atlaspackaging.daily_production.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,7 +22,7 @@ fun ListItem(
 ){
     Text(
         modifier = Modifier
-            .fillMaxWidth(.7f)
+            .fillMaxWidth()
             .background(colors.primaryVariant.copy())
             .border(1.dp, color = Color.White)
             .padding(10.dp)

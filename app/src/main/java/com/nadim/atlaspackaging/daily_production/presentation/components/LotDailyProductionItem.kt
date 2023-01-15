@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production_feature.presentation.components
+package com.nadim.atlaspackaging.daily_production.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -67,7 +67,7 @@ fun LotDailyProductionItem(
                     text = "AP:",
                     style = MaterialTheme.typography.h5,
                 )
-                CustomTextFieldForProductionItem(
+                ProdItemText(
                     modifier = Modifier
                         .clickable { onClickOne() }
                         .weight(2f),
@@ -81,7 +81,7 @@ fun LotDailyProductionItem(
                     numbersOnly = true
                 )
 
-                CustomTextFieldForProductionItem(
+                ProdItemText(
                     modifier = Modifier
                         .weight(2f)
                         .clickable { onClickTwo() },

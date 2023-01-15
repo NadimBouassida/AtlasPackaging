@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production_feature.presentation
+package com.nadim.atlaspackaging.daily_production.presentation
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog

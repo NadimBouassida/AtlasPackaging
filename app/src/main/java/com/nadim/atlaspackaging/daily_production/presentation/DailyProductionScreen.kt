@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production_feature.presentation
+package com.nadim.atlaspackaging.daily_production.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -12,14 +12,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.nadim.atlaspackaging.R
-import com.nadim.atlaspackaging.daily_production_feature.presentation.components.CustomList
-import com.nadim.atlaspackaging.daily_production_feature.presentation.components.DailyProductionItem
-import com.nadim.atlaspackaging.daily_production_feature.presentation.components.LotDailyProductionItem
+import com.nadim.atlaspackaging.daily_production.presentation.components.CustomList
+import com.nadim.atlaspackaging.daily_production.presentation.components.ProdItem
+import com.nadim.atlaspackaging.daily_production.presentation.components.LotDailyProductionItem
 import com.nadim.atlaspackaging.navigation.Screen
 import com.nadim.atlaspackaging.utils.general_components.CustomTopAppBar
 import com.nadim.atlaspackaging.utils.general_components.LogOutFloatingAction
 import kotlinx.coroutines.launch
-
 
 
 @Composable
@@ -53,7 +52,6 @@ fun DailyProductionScreen(
         mutableStateOf(false)
     }
 
-
     LaunchedEffect(key1 = context){
         viewModel.createConductorsList(machine = machine)
         viewModel.setMachineName(machine.toString())
@@ -79,7 +77,7 @@ fun DailyProductionScreen(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.date.value,
                         order = 1,
                         label = "Date",
@@ -89,7 +87,7 @@ fun DailyProductionScreen(
                             datePickerDialog.show()
                         },
                     )
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.dataState.conductor,
                         order = 2,
                         label = "Conductor",
@@ -99,7 +97,7 @@ fun DailyProductionScreen(
                             showConductorsList = true
                         }
                     )
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.dataState.post,
                         order = 3,
                         label = "Post N°",
@@ -107,7 +105,7 @@ fun DailyProductionScreen(
                         enabled = false,
                         onClick = { showPostList = true }
                     )
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.dataState.client,
                         order = 4,
                         label = "Client",
@@ -118,7 +116,7 @@ fun DailyProductionScreen(
                             viewModel.getClientsList()
                         }
                     )
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.dataState.article,
                         order = 4,
                         label = "Article",
@@ -165,7 +163,7 @@ fun DailyProductionScreen(
                             }
                         },
                     )
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.dataState.production,
                         order = 6,
                         label = "Production",
@@ -179,7 +177,7 @@ fun DailyProductionScreen(
                             viewModel.onEvent(Events.ProductionChange,quantity)
                         }
                     }
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.dataState.waste,
                         order = 7,
                         label = "Waste",
@@ -193,7 +191,7 @@ fun DailyProductionScreen(
                             viewModel.onEvent(Events.WasteChange, quantity)
                         }
                     }
-                    DailyProductionItem(
+                    ProdItem(
                         text = viewModel.dataState.commentary,
                         order = 8,
                         label = "Commentary",
@@ -225,6 +223,9 @@ fun DailyProductionScreen(
                 }
             }
         }
+
+
+
         LogOutFloatingAction(navController = navController)
         if (showConductorsList){
             CustomList(
@@ -235,7 +236,7 @@ fun DailyProductionScreen(
                     viewModel.onEvent(Events.ConductorChange,it)
                     showConductorsList = false
                 },
-                itemsList = viewModel.conductorsList
+                itemsList = viewModel.conductorsList,
             )
         }
         if (showPostList){
@@ -255,7 +256,7 @@ fun DailyProductionScreen(
                     viewModel.onEvent(Events.ClientChange,it)
                     showClientsList = false
                 },
-                itemsList = viewModel.clientList
+                itemsList = viewModel.clientList,
             )
         }
         if (viewModel.articlesList.isNotEmpty() && showArticlesList){
@@ -265,7 +266,7 @@ fun DailyProductionScreen(
                     viewModel.onEvent(Events.ArticleChange,it)
                     showArticlesList = false
                 },
-                itemsList = viewModel.articlesList
+                itemsList = viewModel.articlesList,
             )
         }
 

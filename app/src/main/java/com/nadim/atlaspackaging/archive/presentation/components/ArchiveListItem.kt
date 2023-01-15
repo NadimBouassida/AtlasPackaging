@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.archive_feature.presentation.components
+package com.nadim.atlaspackaging.archive.presentation.components
 
 
 import androidx.compose.foundation.clickable

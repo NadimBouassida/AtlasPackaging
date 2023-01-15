@@ -19,9 +19,7 @@ fun MachineScreen(
     machine: String?
 ){
     Box {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
             CustomTopAppBar(
                 textTwo = machine,
                 navController = navController,

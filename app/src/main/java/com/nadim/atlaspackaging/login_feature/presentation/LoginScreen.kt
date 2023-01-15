@@ -87,15 +87,13 @@ fun LoginScreen(
         )
         Card(
             shape = RoundedCornerShape(15.dp),
-            modifier = Modifier
-                .padding(horizontal = 40.dp, vertical = 20.dp),
+            modifier = Modifier.padding(horizontal = 40.dp, vertical = 20.dp),
             backgroundColor = Color.LightGray,
             elevation = 10.dp,
             border = BorderStroke(width = 3.dp, color = MaterialTheme.colors.primary)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(

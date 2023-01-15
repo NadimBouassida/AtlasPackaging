@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production_feature.presentation.components
+package com.nadim.atlaspackaging.daily_production.presentation.components
 
 
 import androidx.compose.foundation.background
@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun DailyProductionItem(
+fun ProdItem(
     order: Int,
     label:String,
     text: String,
@@ -29,7 +29,7 @@ fun DailyProductionItem(
 ) {
 
     Card(
-        modifier = Modifier
+        Modifier
             .fillMaxWidth()
             .padding(15.dp),
         elevation = 10.dp,
@@ -51,7 +51,7 @@ fun DailyProductionItem(
                 color = MaterialTheme.colors.background
             )
 
-            CustomTextFieldForProductionItem(
+            ProdItemText(
                 text = text,
                 onClick = { onClick() },
                 onValueChange = onValueChange,

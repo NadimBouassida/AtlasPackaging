@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.archive_feature.presentation
+package com.nadim.atlaspackaging.archive.presentation
 
 
 import android.app.DownloadManager
@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.nadim.atlaspackaging.R
-import com.nadim.atlaspackaging.archive_feature.presentation.components.ArchiveListItem
-import com.nadim.atlaspackaging.archive_feature.presentation.components.ProductionTable
+import com.nadim.atlaspackaging.archive.presentation.components.ArchiveListItem
+import com.nadim.atlaspackaging.archive.presentation.components.ProductionTable
 import com.nadim.atlaspackaging.navigation.Screen
 import com.nadim.atlaspackaging.utils.general_components.CustomTopAppBar
 import com.nadim.atlaspackaging.utils.general_components.LogOutFloatingAction

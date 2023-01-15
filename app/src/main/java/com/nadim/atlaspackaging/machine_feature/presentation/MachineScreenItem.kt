@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nadim.atlaspackaging.R
 
 
 @Composable
@@ -47,6 +49,14 @@ fun MachineItem(
             style = MaterialTheme.typography.h6,
             color = Color.Black
         )
+    }
+}
+
+@Preview
+@Composable
+fun MachineItemPreview(){
+    Box(modifier = Modifier.fillMaxSize().background(Color.White), contentAlignment = Alignment.Center){
+        MachineItem(text = "Daily Production Archive", onClick = {  }, id = R.drawable.ic_archive)
     }
 }
 

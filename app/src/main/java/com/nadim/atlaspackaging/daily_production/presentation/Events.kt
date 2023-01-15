@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production_feature.presentation
+package com.nadim.atlaspackaging.daily_production.presentation
 
 sealed class Events{
     object DateChange: Events()

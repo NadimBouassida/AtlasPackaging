@@ -41,8 +41,7 @@ fun MainScreen(
             backgroundColor = MaterialTheme.colors.primary,
         )
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
