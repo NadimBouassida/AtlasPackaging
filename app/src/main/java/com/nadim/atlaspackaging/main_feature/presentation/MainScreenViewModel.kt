@@ -27,8 +27,8 @@ class MainScreenViewModel @Inject constructor (
     @Named("auth") private val auth: FirebaseAuth
         ) : ViewModel() {
 
-    // the list is located on the database so it will be easy
-    // to manipulate without having to change the code
+    // the list is located on the firebase realtime database so it will be easy
+    // to manipulate without having to change the code here
     private val _machineList = mutableStateListOf("Flexo")
     val machineList: SnapshotStateList<String> = _machineList
 

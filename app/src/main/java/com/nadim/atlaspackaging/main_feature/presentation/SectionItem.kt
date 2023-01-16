@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -11,7 +12,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -27,39 +27,31 @@ fun SectionItem(
     Card (
         modifier = Modifier
             .clickable { onClick() }
-            .padding(5.dp),
-        elevation = 10.dp,
+            .padding(10.dp),
+        elevation = 15.dp,
         shape = RoundedCornerShape(15.dp),
-        backgroundColor = Color.LightGray,
+        backgroundColor = Color.White,
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-        ) {
+        Column(modifier = Modifier.fillMaxWidth(),verticalArrangement = Arrangement.Center,
+         horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(modifier = Modifier.padding(10.dp))
             Image(
-                painter = painterResource(id = R.drawable.atlas_background),
+                modifier = Modifier.height(120.dp),
+                painter = painterResource(id = R.drawable.atlas),
                 contentDescription = "Background",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.padding(top = 20.dp)
+                contentScale = ContentScale.Fit,
             )
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = .8f)
-                            ),
-                            startY = 300f
-                        )
-                    )
-                )
-            Text(modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 12.dp),
-            text = machine, style = MaterialTheme.typography.body1, color = Color.White)
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .background(Color.Black.copy(alpha = .3f)),
+                ) {
+                    Text(modifier = Modifier
+                            .align(Alignment.TopCenter),
+                    text = "Suivie de production $machine", style = MaterialTheme.typography.h5,
+                    color = Color.White)
+            }
         }
     }
 }
@@ -67,9 +59,19 @@ fun SectionItem(
 @Preview
 @Composable
 fun SectionItemPreview(){
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        SectionItem(machine = "") {
-
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+            item {
+                SectionItem(machine = "Sealer") {
+            }
+                SectionItem(machine = "Sealer") {
+            }
+                SectionItem(machine = "Sealer") {
+            }
         }
+
     }
 }
