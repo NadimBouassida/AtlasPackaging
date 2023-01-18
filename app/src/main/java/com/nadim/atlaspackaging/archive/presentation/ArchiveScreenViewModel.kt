@@ -62,7 +62,6 @@ class ArchiveScreenViewModel @Inject constructor(
                                 "client" -> data = data.copy(client = thisData.value.toString())
                                 "article" -> data = data.copy(article = thisData.value.toString())
                                 "lot" -> data = data.copy(lot = thisData.value.toString())
-                                "secondaryLot" -> data = data.copy(secondaryLot = thisData.value.toString())
                                 "production" -> data = data.copy(production = thisData.value.toString())
                                 "waste" -> data = data.copy(waste = thisData.value.toString())
                                 "time" -> data = data.copy(time = thisData.value.toString())
@@ -131,7 +130,6 @@ class ArchiveScreenViewModel @Inject constructor(
                         && it.child("client").value == dataToBeDeleted.client
                         && it.child("date").value == dataToBeDeleted.date
                         && it.child("lot").value == dataToBeDeleted.lot
-                        && it.child("secondaryLot").value == dataToBeDeleted.secondaryLot
                     ){
                         db.getReference(machine).child(it.key.toString()).removeValue()
                         _dataList.clear()
@@ -191,7 +189,7 @@ class ArchiveScreenViewModel @Inject constructor(
             val cellArticle = row.createCell(6)
             cellArticle.setCellValue(dataList[r].article)
             val cellLot = row.createCell(7)
-            cellLot.setCellValue("AP:${dataList[r].lot}-${dataList[r].secondaryLot}")
+            cellLot.setCellValue("AP:${dataList[r].lot}")
             val cellProduction = row.createCell(8)
             cellProduction.setCellValue(dataList[r].production)
             val cellWaste = row.createCell(9)

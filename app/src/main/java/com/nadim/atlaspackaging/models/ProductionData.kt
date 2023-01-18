@@ -8,7 +8,6 @@ data class ProductionData(
     val post: String = "",
     val client: String = "",
     val lot: String = "",
-    val secondaryLot: String = "",
     val production: String = "",
     val waste: String = "",
     val commentary: String = "",

@@ -14,8 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.nadim.atlaspackaging.navigation.SetupNavGraph
 import com.nadim.atlaspackaging.ui.theme.AtlasPackagingTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,12 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     
     lateinit var navController: NavHostController
-    
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Firebase.database.setPersistenceEnabled(true)
-
         ActivityCompat.requestPermissions(this,
             arrayOf(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,

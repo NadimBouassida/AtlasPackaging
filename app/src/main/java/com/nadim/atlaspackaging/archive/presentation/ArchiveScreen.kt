@@ -179,7 +179,6 @@ fun ArchiveScreen(
                                conductor = viewModel.selectedData.conductor,
                                commentary = viewModel.selectedData.commentary,
                                lot = viewModel.selectedData.lot,
-                               secondaryLotNumber = viewModel.selectedData.secondaryLot,
                                production = viewModel.selectedData.production,
                                waste = viewModel.selectedData.waste,
                                time = viewModel.selectedData.time,

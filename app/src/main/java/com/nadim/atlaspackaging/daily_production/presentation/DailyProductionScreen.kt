@@ -1,5 +1,7 @@
 package com.nadim.atlaspackaging.daily_production.presentation
 
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -14,28 +16,23 @@ import androidx.navigation.NavController
 import com.nadim.atlaspackaging.R
 import com.nadim.atlaspackaging.daily_production.presentation.components.CustomList
 import com.nadim.atlaspackaging.daily_production.presentation.components.ProdItem
-import com.nadim.atlaspackaging.daily_production.presentation.components.LotDailyProductionItem
 import com.nadim.atlaspackaging.navigation.Screen
 import com.nadim.atlaspackaging.utils.general_components.CustomTopAppBar
 import com.nadim.atlaspackaging.utils.general_components.LogOutFloatingAction
-import kotlinx.coroutines.launch
 
-
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DailyProductionScreen(
     viewModel: DailyProductionViewModel = hiltViewModel(),
     navController: NavController,
     machine: String?,
 ){
-
     val context = LocalContext.current
     val datePickerDialog by remember {
         mutableStateOf(viewModel.getDatePicker(context = context))
     }
 
-    val scope = rememberCoroutineScope()
     val state = rememberScaffoldState()
-
 
     var showConductorsList by remember {
         mutableStateOf(false)
@@ -128,41 +125,23 @@ fun DailyProductionScreen(
                                 showArticlesList = true
                             }
                             if(viewModel.dataState.client.isBlank()){
-                                scope.launch {
-                                    state.snackbarHostState.showSnackbar(
-                                        message = "Client field is empty!",
-                                        duration = SnackbarDuration.Short,
-                                    )
-                                }
+                                Toast.makeText(context,"Client field is empty!",Toast.LENGTH_SHORT).show()
                             }
                         }
                     )
 
-                    LotDailyProductionItem(
-                        order = 5,
-                        label = "Lot",
-                        textOne = viewModel.dataState.lot,
-                        textTwo = viewModel.dataState.secondaryLot,
-                        enabled = true,
-                        onValueChangeOne = {
-                            if (it.length < 2){
-                                viewModel.onEvent(Events.LotChange,it)
+                    ProdItem(order = 5, label = "Lot", text = viewModel.dataState.lot,
+                        showTrailingIcon = false, numbersOnly = true, maxLines = 1,
+                        onValueChange = {
+                            if (it.length < 6){
+                                viewModel.onEvent(Events.LotChange, it)
                             }
-                            if(it.length >= 2) {
-                                val quantity = it.dropLast(it.length-2)
+                            if(it.length >= 6) {
+                                val quantity = it.dropLast(it.length-6)
                                 viewModel.onEvent(Events.LotChange,quantity)
-                            }
-                        },
-                        onValueChangeTwo = {
-                            if (it.length < 2){
-                                viewModel.onEvent(Events.SecondaryLotChange, it)
-                            }
-                            if(it.length >= 2) {
-                                val quantity = it.dropLast(it.length-2)
-                                viewModel.onEvent(Events.SecondaryLotChange,quantity)
-                            }
-                        },
-                    )
+                        }
+                    })
+
                     ProdItem(
                         text = viewModel.dataState.production,
                         order = 6,
@@ -204,7 +183,7 @@ fun DailyProductionScreen(
                         colors = ButtonDefaults.buttonColors(
                             contentColor = MaterialTheme.colors.background
                         ),
-                        onClick = {viewModel.onSubmitClicked()}
+                        onClick = {viewModel.onEvent(Events.Submit,"")}
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically
@@ -224,9 +203,8 @@ fun DailyProductionScreen(
             }
         }
 
-
-
         LogOutFloatingAction(navController = navController)
+
         if (showConductorsList){
             CustomList(
                 onIconClick = {
@@ -270,25 +248,5 @@ fun DailyProductionScreen(
             )
         }
 
-        if (viewModel.showSnackBar.value){
-            scope.launch {
-                state.snackbarHostState.showSnackbar(
-                    message = "One of the fields is empty," +
-                            " all required fields need to be filled in order to submit data",
-                    duration = SnackbarDuration.Short,
-                )
-                viewModel.resetShowSnackBarValue()
-            }
-        }
-
-        if (viewModel.showSuccessSnackBar.value){
-            scope.launch {
-                state.snackbarHostState.showSnackbar(
-                    message = "Daily production successfully uploaded!",
-                    duration = SnackbarDuration.Short,
-                )
-                viewModel.resetShowSuccessSnackBarValue()
-            }
-        }
     }
 }

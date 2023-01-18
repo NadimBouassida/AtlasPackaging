@@ -7,7 +7,6 @@ sealed class Events{
     object ArticleChange: Events()
     object ClientChange: Events()
     object LotChange: Events()
-    object SecondaryLotChange: Events()
     object ProductionChange: Events()
     object WasteChange: Events()
     object CommentaryChange: Events()

@@ -24,6 +24,8 @@ class DailyProductionViewModel @Inject constructor (
     @Named("db") private val db: FirebaseDatabase
     ) : ViewModel() {
 
+    private var _machine = ""
+
     var dataState by mutableStateOf(ProductionData())
     private val calendar: Calendar = Calendar.getInstance()
     private val datePicker = DatePicker(calendar = calendar)
@@ -35,12 +37,6 @@ class DailyProductionViewModel @Inject constructor (
     val clientList: List<String> = _clientsList
     private val _articlesList = mutableStateListOf<String>()
     val articlesList: List<String> = _articlesList
-    private val _showSnackBar = mutableStateOf(false)
-    val showSnackBar : State <Boolean> = _showSnackBar
-    private val _showSuccessSnackBar = mutableStateOf(false)
-    val showSuccessSnackBar: State<Boolean> = _showSuccessSnackBar
-
-    private var _machine = ""
 
     fun setMachineName(machine: String){
         _machine = machine
@@ -54,7 +50,6 @@ class DailyProductionViewModel @Inject constructor (
             is Events.ArticleChange -> dataState = dataState.copy(article = string)
             is Events.ClientChange -> dataState = dataState.copy(client = string)
             is Events.LotChange -> dataState = dataState.copy(lot = string)
-            is Events.SecondaryLotChange -> dataState = dataState.copy(secondaryLot = string)
             is Events.ProductionChange -> dataState = dataState.copy(production = string)
             is Events.WasteChange -> dataState = dataState.copy(waste = string)
             is Events.CommentaryChange -> dataState = dataState.copy(commentary = string)
@@ -72,11 +67,11 @@ class DailyProductionViewModel @Inject constructor (
 
     private fun identifyConductors(machine: String?) : List<String>{
         return when(machine){
-            "Flexo" -> listOf("Hamdi")
+            "Flexo" -> listOf("Hamdi", "Youssef")
             "Sealer" -> listOf("Thabet", "Nadim", "Nessrine")
-            "Découpe1" -> listOf("Saif", "Hassan", "Anoir", "Mohammed", "Bilel")
-            "Découpe2" -> listOf("Saif", "Hassan", "Anoir", "Mohammed", "Bilel")
-            "Découpe3" -> listOf("Saif", "Hassan", "Anoir", "Mohammed", "Bilel")
+            "Découpe1" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
+            "Découpe2" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
+            "Découpe3" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
             else -> listOf("")
         }
     }
@@ -112,11 +107,9 @@ class DailyProductionViewModel @Inject constructor (
                 .addValueEventListener(object : ValueEventListener  {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach{ dbClient ->
-                        println("dbClient $dbClient")
                         if (client in dbClient.key.toString()){
                             dbClient.children.forEach { article ->
                                 _articlesList.add(article.value.toString())
-                                println("Article list ${_articlesList.toList()}")
                             }
                         }
                     }
@@ -130,7 +123,6 @@ class DailyProductionViewModel @Inject constructor (
 
     @SuppressLint("SimpleDateFormat")
     fun onSubmitClicked(){
-
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         val date = Date().time
         val time = sdf.format(date).toString()
@@ -139,22 +131,21 @@ class DailyProductionViewModel @Inject constructor (
             time = time,
             date = dataState.date.replace("/", "-")
         )
-
         val dataList = mutableStateListOf<String>()
         ProductionData::class.memberProperties.forEach { member ->
             val value = member.get(dataState) as String
             dataList.add(value)
         }
+
         val hasEmptyField = dataList.toList().any {
             it.isBlank()
         }
-        _showSnackBar.value = hasEmptyField
+        Log.i("ProductionDataList",dataList.toList().toString())
         if (!hasEmptyField){
             viewModelScope.launch(Dispatchers.IO) {
                 db.getReference(_machine)
                     .push()
                     .setValue(dataState).addOnSuccessListener {
-                    _showSuccessSnackBar.value = true
                     clearAllItems()
                     _date.value = ""
                 }
@@ -166,11 +157,4 @@ class DailyProductionViewModel @Inject constructor (
         dataState = ProductionData()
     }
 
-    fun resetShowSnackBarValue() {
-        _showSnackBar.value = false
-    }
-
-    fun resetShowSuccessSnackBarValue() {
-        _showSuccessSnackBar.value = false
-    }
 }

@@ -25,7 +25,6 @@ fun ProductionTable(
     conductor: String ,
     commentary: String ,
     lot: String ,
-    secondaryLotNumber: String ,
     production: String ,
     waste: String,
     time: String,
@@ -98,7 +97,7 @@ fun ProductionTable(
                 Row {
                     Text(text = "lot:")
                     Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "AP$lot - $secondaryLotNumber")
+                    Text(text = "AP$lot")
                 }
                 Row {
                     Text(text = "production:")

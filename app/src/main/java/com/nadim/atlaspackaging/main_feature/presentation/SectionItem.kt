@@ -65,9 +65,9 @@ fun SectionItemPreview(){
         horizontalAlignment = Alignment.CenterHorizontally
     ){
             item {
-                SectionItem(machine = "Sealer") {
+                SectionItem(machine = "Flexo") {
             }
-                SectionItem(machine = "Sealer") {
+                SectionItem(machine = "Decoupe1") {
             }
                 SectionItem(machine = "Sealer") {
             }
