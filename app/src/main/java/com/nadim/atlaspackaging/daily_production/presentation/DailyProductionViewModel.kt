@@ -12,6 +12,9 @@ import com.nadim.atlaspackaging.daily_production.domain.DatePicker
 import com.nadim.atlaspackaging.models.ProductionData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,6 +41,8 @@ class DailyProductionViewModel @Inject constructor (
     val clientList: List<String> = _clientsList
     private val _articlesList = mutableStateListOf<String>()
     val articlesList: List<String> = _articlesList
+    private var _notificationMessage = MutableStateFlow("")
+    val notificationMessage: StateFlow<String> = _notificationMessage.asStateFlow()
 
     fun setMachineName(machine: String){
         _machine = machine
@@ -99,7 +104,7 @@ class DailyProductionViewModel @Inject constructor (
 
     fun getArticlesList(client: String){
         if (client.isBlank()){
-            Log.i("ClientsSection","clients section need to be filled first!")
+            _notificationMessage.value = "Client Field Is Empty!"
             return
         }
         _articlesList.clear()
@@ -142,14 +147,23 @@ class DailyProductionViewModel @Inject constructor (
         val hasEmptyField = dataList.toList().any {
             it.isBlank()
         }
-        Log.i("ProductionDataList",dataList.toList().toString())
+
+        if (hasEmptyField){
+            _notificationMessage.value = "Found Empty Field!"
+        }
+
         if (!hasEmptyField){
             viewModelScope.launch(Dispatchers.IO) {
                 db.getReference(_machine)
                     .push()
-                    .setValue(dataState).addOnSuccessListener {
-                    clearAllItems()
-                    _date.value = ""
+                    .setValue(dataState)
+                    .addOnSuccessListener {
+                        clearAllItems()
+                        _notificationMessage.value = "Daily Production Updated Successfully!"
+                        _date.value = ""
+                    }
+                    .addOnFailureListener {
+                    _notificationMessage.value = "Error: ${it.localizedMessage}"
                 }
             }
         }
@@ -158,5 +172,10 @@ class DailyProductionViewModel @Inject constructor (
     private fun clearAllItems() {
         dataState = ProductionData()
     }
+
+    fun clearNotificationMessage() {
+        _notificationMessage.value = ""
+    }
+
 
 }

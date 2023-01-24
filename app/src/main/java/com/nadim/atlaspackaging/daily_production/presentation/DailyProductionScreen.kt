@@ -52,6 +52,12 @@ fun DailyProductionScreen(
     LaunchedEffect(key1 = context){
         viewModel.createConductorsList(machine = machine)
         viewModel.setMachineName(machine.toString())
+        viewModel.notificationMessage.collect{
+            if (it.isNotEmpty()){
+                Toast.makeText(context,viewModel.notificationMessage.value,Toast.LENGTH_SHORT).show()
+            }
+            viewModel.clearNotificationMessage()
+        }
     }
 
 
