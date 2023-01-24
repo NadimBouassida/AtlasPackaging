@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
+import com.nadim.atlaspackaging.daily_production.domain.DatePicker
 import com.nadim.atlaspackaging.models.ProductionData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,7 @@ class DailyProductionViewModel @Inject constructor (
 
     fun setMachineName(machine: String){
         _machine = machine
+        dataState = dataState.copy(machine= _machine)
     }
 
     fun onEvent(event: Events, string: String){
@@ -69,9 +71,9 @@ class DailyProductionViewModel @Inject constructor (
         return when(machine){
             "Flexo" -> listOf("Hamdi", "Youssef")
             "Sealer" -> listOf("Thabet", "Nadim", "Nessrine")
-            "Découpe1" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
-            "Découpe2" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
-            "Découpe3" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
+            "Decoupe1" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
+            "Decoupe2" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
+            "Decoupe3" -> listOf("Saif", "Anoir", "Mohammed", "Bilel")
             else -> listOf("")
         }
     }
