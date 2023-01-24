@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.nadim.atlaspackaging.utils.general_components.LogOutFloatingAction
+import com.nadim.atlaspackaging.ui.general_components.LogOutFloatingAction
 
 
 @Composable

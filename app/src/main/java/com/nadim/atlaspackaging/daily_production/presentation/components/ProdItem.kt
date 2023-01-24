@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ProdItem(
+    modifier: Modifier = Modifier,
     order: Int,
     label:String,
     text: String,
@@ -27,9 +28,8 @@ fun ProdItem(
     onClick: () -> Unit = {},
     onValueChange: (String) -> Unit = {},
 ) {
-
     Card(
-        Modifier
+        modifier
             .fillMaxWidth()
             .padding(15.dp),
         elevation = 10.dp,

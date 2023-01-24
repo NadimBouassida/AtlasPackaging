@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.nadim.atlaspackaging.R
 
@@ -21,9 +22,11 @@ fun CustomList(
     onIconClick: () -> Unit,
     onItemClick: (String) -> Unit,
     itemsList: List<String?>,
+    offset: IntOffset = IntOffset(0,0)
 ){
     Column (
-        modifier = Modifier.fillMaxWidth(.7f),
+        modifier = Modifier.absoluteOffset { offset }
+        .fillMaxWidth(.7f),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

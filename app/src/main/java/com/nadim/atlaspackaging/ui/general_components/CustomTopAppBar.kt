@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.utils.general_components
+package com.nadim.atlaspackaging.ui.general_components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*

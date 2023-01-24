@@ -21,8 +21,8 @@ import com.nadim.atlaspackaging.R
 import com.nadim.atlaspackaging.archive.presentation.components.ArchiveListItem
 import com.nadim.atlaspackaging.archive.presentation.components.ProductionTable
 import com.nadim.atlaspackaging.navigation.Screen
-import com.nadim.atlaspackaging.utils.general_components.CustomTopAppBar
-import com.nadim.atlaspackaging.utils.general_components.LogOutFloatingAction
+import com.nadim.atlaspackaging.ui.general_components.CustomTopAppBar
+import com.nadim.atlaspackaging.ui.general_components.LogOutFloatingAction
 
 
 @Composable
