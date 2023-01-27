@@ -8,10 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nadim.atlaspackaging.R
 import com.nadim.atlaspackaging.navigation.Screen
+import com.nadim.atlaspackaging.ui.general_components.CustomTopAppBar
 
 @Composable
 fun LoginScreen(
@@ -62,30 +60,12 @@ fun LoginScreen(
             }
         }
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
+    Scaffold(
+        topBar = { CustomTopAppBar() }
     ) {
-        TopAppBar(
-            title = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .height(100.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "Atlas Packaging",
-                        color = MaterialTheme.colors.background,
-                        style = MaterialTheme.typography.h5
-                    )
-                }
-            },
-            backgroundColor = MaterialTheme.colors.primary
-        )
         Card(
             shape = RoundedCornerShape(15.dp),
-            modifier = Modifier.padding(horizontal = 40.dp, vertical = 20.dp),
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 20.dp),
             backgroundColor = Color.LightGray,
             elevation = 10.dp,
             border = BorderStroke(width = 3.dp, color = MaterialTheme.colors.primary)
@@ -95,8 +75,14 @@ fun LoginScreen(
                 Image(
                     painter = painterResource(id = R.drawable.atlas),
                     contentDescription = "logo",
-                    modifier = Modifier.padding(top = 60.dp).size(160.dp)
-                        .border(width = 5.dp, color = MaterialTheme.colors.primary, shape = CircleShape)
+                    modifier = Modifier
+                        .padding(top = 60.dp)
+                        .size(160.dp)
+                        .border(
+                            width = 5.dp,
+                            color = MaterialTheme.colors.primary,
+                            shape = CircleShape
+                        )
                         .clip(CircleShape)
                         .background(MaterialTheme.colors.secondary.copy(alpha = 0.2f)),
                 )

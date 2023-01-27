@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
 import com.nadim.atlaspackaging.daily_production.domain.DatePicker
+import com.nadim.atlaspackaging.domain.RemoteDataRepo
 import com.nadim.atlaspackaging.models.ProductionData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,8 @@ import kotlin.reflect.full.memberProperties
 
 @HiltViewModel
 class DailyProductionViewModel @Inject constructor (
-    @Named("db") private val db: FirebaseDatabase
+    @Named("db") private val db: FirebaseDatabase,
+    private val remoteDataRepo: RemoteDataRepo
     ) : ViewModel() {
 
     private var _machine = ""
@@ -177,5 +179,7 @@ class DailyProductionViewModel @Inject constructor (
         _notificationMessage.value = ""
     }
 
-
+    fun logOut(){
+        remoteDataRepo.signOut()
+    }
 }

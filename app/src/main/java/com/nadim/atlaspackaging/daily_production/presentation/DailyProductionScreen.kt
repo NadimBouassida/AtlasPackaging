@@ -36,43 +36,29 @@ fun DailyProductionScreen(
 
     val state = rememberScaffoldState()
 
-    var showConductorsList by remember {
-        mutableStateOf(false)
-    }
+    var showConductorsList by remember { mutableStateOf(false) }
 
-    var showPostList by remember {
-        mutableStateOf(false)
-    }
+    var showPostList by remember { mutableStateOf(false) }
 
-    var showClientsList by remember {
-        mutableStateOf(false)
-    }
-    var showArticlesList by remember {
-        mutableStateOf(false)
-    }
+    var showClientsList by remember { mutableStateOf(false) }
 
-    var conductorsListOffset by remember {
-        mutableStateOf(IntOffset(0,0))
-    }
+    var showArticlesList by remember { mutableStateOf(false) }
 
-    var postListOffset by remember {
-        mutableStateOf(IntOffset(0,0))
-    }
+    var conductorsListOffset by remember { mutableStateOf(IntOffset(0,0)) }
 
-    var clientsListOffset by remember {
-        mutableStateOf(IntOffset(0,0))
-    }
+    var postListOffset by remember { mutableStateOf(IntOffset(0,0)) }
 
-    var articlesListOffset by remember {
-        mutableStateOf(IntOffset(0,0))
-    }
+    var clientsListOffset by remember { mutableStateOf(IntOffset(0,0)) }
+
+    var articlesListOffset by remember { mutableStateOf(IntOffset(0,0)) }
 
     LaunchedEffect(key1 = context){
         viewModel.createConductorsList(machine = machine)
         viewModel.setMachineName(machine.toString())
         viewModel.notificationMessage.collect{
             if (it.isNotEmpty()){
-                Toast.makeText(context,viewModel.notificationMessage.value,Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,viewModel.notificationMessage.value,Toast.LENGTH_SHORT)
+                    .show()
             }
             viewModel.clearNotificationMessage()
         }
@@ -80,14 +66,15 @@ fun DailyProductionScreen(
 
     Scaffold(
         scaffoldState = state,
-        floatingActionButton = { LogOutFloatingAction(navController = navController) },
+        floatingActionButton = {
+            LogOutFloatingAction(logout = {viewModel.logOut()}, navController = navController) },
         topBar = {
             CustomTopAppBar(
                 navController = navController,
-                textOne = machine,
-                textTwo = "Daily Production",
+                machine = machine,
                 navUpDestination = "machine_screen?machine=$machine",
-                popUpScreen = Screen.MachineScreen.route
+                popUpScreen = Screen.MachineScreen.route,
+                showNavigationAction = true,
             )
         }
     ) {

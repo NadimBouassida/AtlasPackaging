@@ -7,19 +7,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.nadim.atlaspackaging.R
-import com.nadim.atlaspackaging.main_feature.presentation.MainScreenViewModel
 import com.nadim.atlaspackaging.navigation.Screen
 
 
 @Composable
 fun LogOutFloatingAction(
-    viewModel: MainScreenViewModel = hiltViewModel(),
-    navController: NavController
+    logout: () -> Unit,
+    navController: NavController,
 ){
     var logoutButtonClicked by remember {
         mutableStateOf(false)
@@ -31,9 +31,7 @@ fun LogOutFloatingAction(
         contentAlignment = Alignment.BottomEnd
     ) {
         FloatingActionButton(
-            onClick = {
-                logoutButtonClicked = true
-            },
+            onClick = { logoutButtonClicked = true },
             backgroundColor = MaterialTheme.colors.primary,
             contentColor = Color.White
         ) {
@@ -45,16 +43,13 @@ fun LogOutFloatingAction(
     }
 
     if (logoutButtonClicked){
-        Box (
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
+        Box (modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Snackbar(
                 modifier = Modifier.padding(12.dp),
                 action = {
                     Row {
                         Button(onClick = {
-                            viewModel.logOut()
+                            logout()
                             navController
                                 .navigate(Screen.LoginScreen.route){
                                     popUpTo(Screen.MainScreen.route){
@@ -77,4 +72,11 @@ fun LogOutFloatingAction(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun LogOutFloatingActionPreview(){
+    val navController = NavController(LocalContext.current)
+    LogOutFloatingAction({},navController)
 }

@@ -17,29 +17,32 @@ import com.nadim.atlaspackaging.R
 
 @Composable
 fun CustomTopAppBar(
-    navController: NavController,
-    textOne: String? = "AtlasPackaging",
-    textTwo: String?,
-    navUpDestination: String,
-    popUpScreen: String,
+    navController: NavController? = null,
+    machine: String? = null,
+    navUpDestination: String? = null,
+    popUpScreen: String? = null,
     showDownloadIcon: Boolean = false,
-    showNavigationAction: Boolean = true,
+    showNavigationAction: Boolean = false,
     onDownloadIconClicked: () -> Unit = {},
 ){
+    val style = LocalTextStyle.provides(MaterialTheme.typography.h5)
     TopAppBar(
         title = {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
+            Column(
+                modifier = Modifier.fillMaxSize().padding(bottom = 5.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
             ) {
-                if (textTwo != null) {
+                Text(
+                    text = "Atlas Packaging",
+                    color = MaterialTheme.colors.background,
+                    style = if(machine!=null) style.value else MaterialTheme.typography.h4,
+                )
+                if (machine != null) {
                     Text(
-                        modifier = Modifier
-                            .weight(2f),
-                        text = "$textOne : $textTwo",
+                        text =  "Machine : $machine",
                         color = MaterialTheme.colors.background,
-                        style = MaterialTheme.typography.h6,
+                        style = MaterialTheme.typography.body1,
                     )
                 }
             }
@@ -47,16 +50,16 @@ fun CustomTopAppBar(
         navigationIcon = {
             if (showNavigationAction){
                 IconButton(
-                    modifier = Modifier.size(30.dp),
                     onClick = {
-                        navController.navigate(navUpDestination){
-                            popUpTo(popUpScreen){
+                        navController!!.navigate(navUpDestination!!){
+                            popUpTo(popUpScreen!!){
                                 inclusive = true
                             }
                         }
                     }
                 ){
                     Icon(
+                        modifier = Modifier.fillMaxSize(.7f),
                         painter = painterResource(id = R.drawable.ic_back_arrow),
                         contentDescription = "Navigate up",
                         tint = MaterialTheme.colors.background
@@ -68,6 +71,7 @@ fun CustomTopAppBar(
             if (showDownloadIcon){
                 IconButton(onClick = { onDownloadIconClicked()}) {
                     Icon(
+                        modifier = Modifier.fillMaxSize(.7f),
                         painter = painterResource(id = R.drawable.ic_download),
                         contentDescription = "download to excel",
                         tint = MaterialTheme.colors.background
@@ -85,8 +89,11 @@ fun CustomTopAppBarPreview(){
         .fillMaxSize()
         .background(Color.White), contentAlignment = Alignment.Center){
         val navController = NavController(LocalContext.current)
-        CustomTopAppBar(navController = navController, textTwo = "User Name",
-            navUpDestination = "" , popUpScreen = "")
+        CustomTopAppBar(navController = navController,
+            navUpDestination = "" , popUpScreen = "",
+            showDownloadIcon = true,
+            machine = "Sealer"
+        )
     }
 }
 

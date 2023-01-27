@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.nadim.atlaspackaging.ui.general_components.CustomTopAppBar
 import com.nadim.atlaspackaging.ui.general_components.LogOutFloatingAction
 
 
@@ -16,30 +17,12 @@ fun MainScreen(
     viewModel: MainScreenViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        topBar = { CustomTopAppBar() },
+        floatingActionButton = {
+            LogOutFloatingAction(logout = {viewModel.logOut()}, navController = navController)
+        }
     ) {
-        TopAppBar(
-            title = {
-                Column (
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                    Text(
-                        text = "Atlas Packaging",
-                        color = MaterialTheme.colors.background,
-                        style = MaterialTheme.typography.h5,
-                    )
-                    Text(
-                        text = "user: ${viewModel.userEmail.value}",
-                        color = MaterialTheme.colors.background,
-                        style = MaterialTheme.typography.body2
-                    )
-                }
-            },
-            backgroundColor = MaterialTheme.colors.primary,
-        )
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -60,7 +43,6 @@ fun MainScreen(
             }
         }
     }
-    LogOutFloatingAction(navController = navController)
 }
 
 

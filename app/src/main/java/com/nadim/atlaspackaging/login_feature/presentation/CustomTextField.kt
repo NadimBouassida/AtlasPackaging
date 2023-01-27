@@ -2,6 +2,7 @@ package com.nadim.atlaspackaging.login_feature.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
@@ -24,6 +25,7 @@ fun CustomTextField(
     trailingIcon : @Composable () -> Unit = {},
 ){
     OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
         value = text,
         onValueChange = onValueChange,
         isError = onError,

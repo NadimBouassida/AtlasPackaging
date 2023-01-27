@@ -52,177 +52,169 @@ fun ArchiveScreen(
     }
 
     Scaffold(
-        scaffoldState = state
+        scaffoldState = state,
+        topBar = {CustomTopAppBar(
+            machine = machine,
+            navController = navController,
+            navUpDestination = "machine_screen?machine=$machine",
+            popUpScreen = Screen.MachineScreen.route,
+            showNavigationAction = true,
+            showDownloadIcon = true,
+            onDownloadIconClicked = {viewModel.onDownloadIconClicked()}
+        )},
+        bottomBar = {
+            LogOutFloatingAction(logout = {viewModel.logOut()},navController = navController)}
     ) {
-       Box {
-           Column {
-               CustomTopAppBar(
-                   navController = navController,
-                   textOne = machine,
-                   textTwo = "Archive",
-                   navUpDestination = "machine_screen?machine=$machine",
-                   popUpScreen = Screen.MachineScreen.route,
-                   showDownloadIcon = true,
-                   onDownloadIconClicked = {viewModel.onDownloadIconClicked()}
-               )
-
-               Box(
-                   modifier = Modifier
-                       .fillMaxWidth(),
-                   contentAlignment = Alignment.Center,
-               ) {
-                   Column(
-                       modifier = Modifier.fillMaxWidth(),
-                       horizontalAlignment = Alignment.CenterHorizontally
-                   ) {
-                       var isOpen by remember {
-                           mutableStateOf(false)
-                       }
-                       OutlinedTextField(
-                           modifier = Modifier
-                               .padding(top = 30.dp),
-                           value = viewModel.search.value,
-                           placeholder = { Text(text = "Search by ${viewModel.searchType.value}...") },
-                           trailingIcon = {
-                               Icon(
-                                   painter = painterResource(id = R.drawable.ic_search),
-                                   contentDescription = "search"
-                               )
-                           },
-                           onValueChange = {
-                               viewModel.setSearchValue(it)
-                               viewModel.onSearchValueChange()
-                               if (viewModel.search.value == ""){
-                                   viewModel.downloadData(machine.toString())
-                               }
-                           },
-                           leadingIcon = {
-                               IconButton(onClick = { isOpen = !isOpen }) {
-                                   Icon(
-                                       painter = painterResource(id = R.drawable.ic_down_arrow),
-                                       contentDescription = "drop down menu show"
-                                   )
-                               }
-                           },
-                       )
-                       if (isOpen) {
-                           Column(
-                               modifier = Modifier
-                                   .fillMaxWidth()
-                                   .padding(horizontal = 60.dp)
-                               ,
-                               horizontalAlignment = Alignment.CenterHorizontally
-                           ) {
-                               for (i in 1..5) {
-                                   Card(
-                                       modifier = Modifier
-                                           .fillMaxWidth()
-                                           .padding(vertical = 5.dp),
-                                       backgroundColor = Color.LightGray,
-                                       elevation = 5.dp
-                                   )
-                                   {
-                                       var text by remember { mutableStateOf("") }
-                                       when (i) {
-                                           1 -> text = "client"
-                                           2 -> text = "article"
-                                           3 -> text = "date"
-                                           4 -> text = "lot"
-                                           5 -> text = "conductor"
-                                       }
-                                       Text(
-                                           text = "Search by $text..",
-                                           modifier = Modifier
-                                               .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
-                                               .clickable {
-                                                   viewModel.setSearchType(text)
-                                                   isOpen = false
-                                               }
-                                       )
-                                   }
-                               }
-                           }
-                       }
-
-                       LazyColumn(
-                           modifier = Modifier
-                               .fillMaxSize()
-                               .padding(top = 20.dp),
-                           verticalArrangement = Arrangement.Top,
-                           horizontalAlignment = Alignment.CenterHorizontally,
-                       ) {
-                           val dataList = viewModel.dataList
-                           items(dataList.size){
-                               ArchiveListItem(
-                                   date = dataList[it].date,
-                                   article = dataList[it].article,
-                                   client = dataList[it].client,
-                                   onClick = {
-                                       viewModel.setSelectedDataValue(dataList[it])
-                                       showProductionTable = true
-                                   },
-                                   onIconClick = {
-                                       showDeleteSnackBar = true
-                                       viewModel.setItemToBeDeleted(dataList[it])
-                                   }
-                               )
-                           }
-                       }
+       Column(
+           modifier = Modifier.fillMaxWidth(),
+           horizontalAlignment = Alignment.CenterHorizontally
+       ) {
+           var isOpen by remember {
+               mutableStateOf(false)
+           }
+           OutlinedTextField(
+               modifier = Modifier
+                   .padding(top = 30.dp),
+               value = viewModel.search.value,
+               placeholder = { Text(text = "Search by ${viewModel.searchType.value}...") },
+               trailingIcon = {
+                   Icon(
+                       painter = painterResource(id = R.drawable.ic_search),
+                       contentDescription = "search"
+                   )
+               },
+               onValueChange = {
+                   viewModel.setSearchValue(it)
+                   viewModel.onSearchValueChange()
+                   if (viewModel.search.value == ""){
+                       viewModel.downloadData(machine.toString())
                    }
-                   if (showProductionTable) {
-                       Box(modifier = Modifier.fillMaxSize()){
-                           ProductionTable(
-                               date = viewModel.selectedData.date,
-                               client = viewModel.selectedData.client ,
-                               article = viewModel.selectedData.article,
-                               post = viewModel.selectedData.post,
-                               conductor = viewModel.selectedData.conductor,
-                               commentary = viewModel.selectedData.commentary,
-                               lot = viewModel.selectedData.lot,
-                               production = viewModel.selectedData.production,
-                               waste = viewModel.selectedData.waste,
-                               time = viewModel.selectedData.time,
-                               onIconClick = {showProductionTable = false}
+               },
+               leadingIcon = {
+                   IconButton(onClick = { isOpen = !isOpen }) {
+                       Icon(
+                           painter = painterResource(id = R.drawable.ic_down_arrow),
+                           contentDescription = "drop down menu show"
+                       )
+                   }
+               },
+           )
+           if (isOpen) {
+               Column(
+                   modifier = Modifier
+                       .fillMaxWidth()
+                       .padding(horizontal = 60.dp)
+                   ,
+                   horizontalAlignment = Alignment.CenterHorizontally
+               ) {
+                   for (i in 1..5) {
+                       Card(
+                           modifier = Modifier
+                               .fillMaxWidth()
+                               .padding(vertical = 5.dp),
+                           backgroundColor = Color.LightGray,
+                           elevation = 5.dp
+                       )
+                       {
+                           var text by remember { mutableStateOf("") }
+                           when (i) {
+                               1 -> text = "client"
+                               2 -> text = "article"
+                               3 -> text = "date"
+                               4 -> text = "lot"
+                               5 -> text = "conductor"
+                           }
+                           Text(
+                               text = "Search by $text..",
+                               modifier = Modifier
+                                   .padding(start = 10.dp, top = 10.dp, bottom = 10.dp)
+                                   .clickable {
+                                       viewModel.setSearchType(text)
+                                       isOpen = false
+                                   }
                            )
                        }
                    }
-                   if (showDeleteSnackBar) {
-                       Box(
-                           modifier = Modifier.fillMaxSize(),
-                           contentAlignment = Alignment.Center
-                       ) {
-                           Snackbar(
-                               modifier = Modifier.padding(12.dp),
-                               action = {
-                                   Row {
-                                       Button(onClick = {
-                                           viewModel.deleteData(machine.toString())
-                                           showDeleteSnackBar = false
-                                       }) {
-                                           Text(
-                                               text = "Confirm",
-                                               color = MaterialTheme.colors.background
-                                           )
-                                       }
-                                       Spacer(modifier = Modifier.padding(16.dp))
-                                       Button(onClick = { showDeleteSnackBar = false }) {
-                                           Text(
-                                               text = "Cancel",
-                                               color = MaterialTheme.colors.background
-                                           )
-                                       }
-                                   }
-                               },
-                               actionOnNewLine = true,
-                               elevation = 10.dp,
-                           ) {
-                               Text(text = "Sure your want to delete?")
-                           }
-                       }
-                   }
                }
-               LogOutFloatingAction(navController = navController)
+           }
+
+           LazyColumn(
+               modifier = Modifier
+                   .fillMaxSize()
+                   .padding(top = 20.dp),
+               verticalArrangement = Arrangement.Top,
+               horizontalAlignment = Alignment.CenterHorizontally,
+           ) {
+               val dataList = viewModel.dataList
+               items(dataList.size){
+                   ArchiveListItem(
+                       date = dataList[it].date,
+                       article = dataList[it].article,
+                       client = dataList[it].client,
+                       onClick = {
+                           viewModel.setSelectedDataValue(dataList[it])
+                           showProductionTable = true
+                       },
+                       onIconClick = {
+                           showDeleteSnackBar = true
+                           viewModel.setItemToBeDeleted(dataList[it])
+                       }
+                   )
+               }
            }
        }
+       if (showProductionTable) {
+           Box(modifier = Modifier.fillMaxSize()){
+               ProductionTable(
+                   date = viewModel.selectedData.date,
+                   client = viewModel.selectedData.client ,
+                   article = viewModel.selectedData.article,
+                   post = viewModel.selectedData.post,
+                   conductor = viewModel.selectedData.conductor,
+                   commentary = viewModel.selectedData.commentary,
+                   lot = viewModel.selectedData.lot,
+                   production = viewModel.selectedData.production,
+                   waste = viewModel.selectedData.waste,
+                   time = viewModel.selectedData.time,
+                   onIconClick = {showProductionTable = false}
+               )
+           }
+       }
+       if (showDeleteSnackBar) {
+           Box(
+               modifier = Modifier.fillMaxSize(),
+               contentAlignment = Alignment.Center
+           ) {
+               Snackbar(
+                   modifier = Modifier.padding(12.dp),
+                   action = {
+                       Row {
+                           Button(onClick = {
+                               viewModel.deleteData(machine.toString())
+                               showDeleteSnackBar = false
+                           }) {
+                               Text(
+                                   text = "Confirm",
+                                   color = MaterialTheme.colors.background
+                               )
+                           }
+                           Spacer(modifier = Modifier.padding(16.dp))
+                           Button(onClick = { showDeleteSnackBar = false }) {
+                               Text(
+                                   text = "Cancel",
+                                   color = MaterialTheme.colors.background
+                               )
+                           }
+                       }
+                   },
+                   actionOnNewLine = true,
+                   elevation = 10.dp,
+               ) {
+                   Text(text = "Sure your want to delete?")
+               }
+           }
+       }
+
+
     }
 }

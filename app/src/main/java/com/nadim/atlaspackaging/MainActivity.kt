@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     
-    lateinit var navController: NavHostController
+    private lateinit var navController: NavHostController
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 Manifest.permission.MANAGE_EXTERNAL_STORAGE
             ),
             PackageManager.PERMISSION_GRANTED
-            )
+        )
 
         setContent {
             AtlasPackagingTheme {
@@ -50,6 +50,7 @@ class MainActivity : ComponentActivity() {
         }
 
     }
+
 }
 
 

@@ -6,6 +6,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
+import com.nadim.atlaspackaging.domain.RemoteDataRepo
 import com.nadim.atlaspackaging.models.ProductionData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ import javax.inject.Named
 @HiltViewModel
 class ArchiveScreenViewModel @Inject constructor(
     @Named("db") private val db: FirebaseDatabase,
+    private val remoteDataRepo: RemoteDataRepo,
 ) : ViewModel() {
     var data  by mutableStateOf(ProductionData())
 
@@ -215,4 +217,7 @@ class ArchiveScreenViewModel @Inject constructor(
         openExcelFile.value = true
     }
 
+    fun logOut(){
+        remoteDataRepo.signOut()
+    }
 }
