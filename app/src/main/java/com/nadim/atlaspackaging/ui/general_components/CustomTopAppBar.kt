@@ -1,11 +1,15 @@
 package com.nadim.atlaspackaging.ui.general_components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.nadim.atlaspackaging.R
@@ -19,6 +23,7 @@ fun CustomTopAppBar(
     navUpDestination: String,
     popUpScreen: String,
     showDownloadIcon: Boolean = false,
+    showNavigationAction: Boolean = true,
     onDownloadIconClicked: () -> Unit = {},
 ){
     TopAppBar(
@@ -40,21 +45,23 @@ fun CustomTopAppBar(
             }
         },
         navigationIcon = {
-            IconButton(
-                modifier = Modifier.size(30.dp),
-                onClick = {
-                    navController.navigate(navUpDestination){
-                        popUpTo(popUpScreen){
-                            inclusive = true
+            if (showNavigationAction){
+                IconButton(
+                    modifier = Modifier.size(30.dp),
+                    onClick = {
+                        navController.navigate(navUpDestination){
+                            popUpTo(popUpScreen){
+                                inclusive = true
+                            }
                         }
                     }
+                ){
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_back_arrow),
+                        contentDescription = "Navigate up",
+                        tint = MaterialTheme.colors.background
+                    )
                 }
-            ){
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back_arrow),
-                    contentDescription = "Navigate up",
-                    tint = MaterialTheme.colors.background
-                )
             }
         },
         actions = {
@@ -69,5 +76,17 @@ fun CustomTopAppBar(
             }
         }
     )
+}
+
+@Preview
+@Composable
+fun CustomTopAppBarPreview(){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White), contentAlignment = Alignment.Center){
+        val navController = NavController(LocalContext.current)
+        CustomTopAppBar(navController = navController, textTwo = "User Name",
+            navUpDestination = "" , popUpScreen = "")
+    }
 }
 

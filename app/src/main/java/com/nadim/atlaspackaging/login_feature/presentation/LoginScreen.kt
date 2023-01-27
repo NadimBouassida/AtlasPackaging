@@ -26,7 +26,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nadim.atlaspackaging.R
 import com.nadim.atlaspackaging.navigation.Screen
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun LoginScreen(
@@ -34,8 +33,7 @@ fun LoginScreen(
     viewModel: LoginScreenViewModel = hiltViewModel(),
 ){
     val context = LocalContext.current
-    // Launch the Navigation to the main screen when the authentication is successful
-    // Return a toast with the error message if the authentication is not successful
+
     LaunchedEffect(key1 = Unit) {
         viewModel.signInResult.collect { event ->
             when (event) {
@@ -50,7 +48,7 @@ fun LoginScreen(
             }
         }
     }
-    //Launch the auto navigate to main screen event if the user is already logged in
+
     LaunchedEffect(key1 = Unit) {
         viewModel.verifyIfUserAlreadySignIn.collect {
             if (it != null) {
@@ -92,21 +90,13 @@ fun LoginScreen(
             elevation = 10.dp,
             border = BorderStroke(width = 3.dp, color = MaterialTheme.colors.primary)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Column(modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
                     painter = painterResource(id = R.drawable.atlas),
                     contentDescription = "logo",
-                    modifier = Modifier
-                        .padding(top = 60.dp)
-                        .size(160.dp)
-                        .border(
-                            width = 5.dp,
-                            color = MaterialTheme.colors.primary,
-                            shape = CircleShape
-                        )
+                    modifier = Modifier.padding(top = 60.dp).size(160.dp)
+                        .border(width = 5.dp, color = MaterialTheme.colors.primary, shape = CircleShape)
                         .clip(CircleShape)
                         .background(MaterialTheme.colors.secondary.copy(alpha = 0.2f)),
                 )
@@ -117,8 +107,6 @@ fun LoginScreen(
                     onVisibilityToggle = {viewModel.onEvent(LoginScreenEvent.OnVisibilityToggle)},
                     onSignIn = {viewModel.onEvent(LoginScreenEvent.OnSignIn)}
                 )
-
-
             }
         }
     }

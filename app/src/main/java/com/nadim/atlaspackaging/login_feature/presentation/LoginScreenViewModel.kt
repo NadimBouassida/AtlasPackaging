@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import com.nadim.atlaspackaging.login_feature.domain.use_cases.ValidateEmailUseCase
+import com.nadim.atlaspackaging.login_feature.domain.use_cases.ValidateEmail
 import com.nadim.atlaspackaging.login_feature.domain.use_cases.ValidatePassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +19,7 @@ import javax.inject.Named
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    private val validateEmailUseCase: ValidateEmailUseCase,
+    private val validateEmail: ValidateEmail,
     private val validatePassword: ValidatePassword,
     @Named("auth") private val auth: FirebaseAuth
 ) : ViewModel(){
@@ -58,7 +58,7 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     private fun signInWithEmailAndPassword(email:String,password:String) {
-        val emailResult = validateEmailUseCase.execute(email = state.email)
+        val emailResult = validateEmail.execute(email = state.email)
         val passwordResult = validatePassword.execute(password = state.password)
 
         val hasError = listOf(emailResult, passwordResult).any{

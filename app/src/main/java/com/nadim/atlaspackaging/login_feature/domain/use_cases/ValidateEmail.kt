@@ -3,7 +3,7 @@ package com.nadim.atlaspackaging.login_feature.domain.use_cases
 import android.util.Patterns
 import javax.inject.Inject
 
-class ValidateEmailUseCase @Inject constructor() {
+class ValidateEmail @Inject constructor() {
     fun execute (email: String) : ValidationResult {
         return if (email.isBlank()) {
             ValidationResult(
