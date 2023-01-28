@@ -5,40 +5,30 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
+import com.nadim.atlaspackaging.domain.RemoteDataRepo
 import com.nadim.atlaspackaging.login_feature.domain.use_cases.ValidateEmail
 import com.nadim.atlaspackaging.login_feature.domain.use_cases.ValidatePassword
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.consumeAsFlow
 import javax.inject.Inject
-import javax.inject.Named
 
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     private val validateEmail: ValidateEmail,
     private val validatePassword: ValidatePassword,
-    @Named("auth") private val auth: FirebaseAuth
+    remoteDataRepo: RemoteDataRepo
 ) : ViewModel(){
 
+    private val auth = remoteDataRepo.auth
     var state by mutableStateOf(LoginScreenState())
 
     private val signInResultChannel = Channel<SignInEventResponse>()
-    val signInResult = signInResultChannel.receiveAsFlow()
+    val signInResult = signInResultChannel.consumeAsFlow()
 
-    private val verifyIfUserAlreadySignInChannel = Channel<String?>()
-    val verifyIfUserAlreadySignIn = verifyIfUserAlreadySignInChannel.receiveAsFlow()
-
-
-    init {
-        viewModelScope.launch {
-            verifyIfUserAlreadySignInChannel.send(auth.currentUser?.email)
-            delay(500)
-        }
-    }
+    val user = auth.currentUser
 
     fun onEvent(event: LoginScreenEvent){
         when (event){
@@ -73,15 +63,17 @@ class LoginScreenViewModel @Inject constructor(
         else {
             auth.signInWithEmailAndPassword(email,password).addOnSuccessListener {
                 viewModelScope.launch {
-                    delay(1000L)
-                    signInResultChannel
-                        .send(SignInEventResponse.Success(user = auth.currentUser?.email.toString()))
+                    withContext(Dispatchers.IO){
+                        signInResultChannel
+                            .send(SignInEventResponse.Success(user = auth.currentUser?.email.toString()))
+                    }
                 }
             }.addOnFailureListener{
                 viewModelScope.launch {
-                    delay(1000L)
-                    signInResultChannel.send(SignInEventResponse
-                        .Failure(it.localizedMessage!!))
+                    withContext(Dispatchers.IO){
+                        signInResultChannel.send(SignInEventResponse
+                            .Failure(it.localizedMessage!!))
+                    }
                 }
             }
         }

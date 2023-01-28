@@ -33,6 +33,13 @@ fun LoginScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
+        if (viewModel.user != null){
+            Toast.makeText(context, "Already signed in as: ${viewModel.user.email}", Toast.LENGTH_LONG).show()
+            navController.navigate(route = Screen.MainScreen.route) {
+                popUpTo(Screen.LoginScreen.route) {
+                    inclusive = true }
+            }
+        }
         viewModel.signInResult.collect { event ->
             when (event) {
                 is LoginScreenViewModel.SignInEventResponse.Success -> {
@@ -47,19 +54,6 @@ fun LoginScreen(
         }
     }
 
-    LaunchedEffect(key1 = Unit) {
-        viewModel.verifyIfUserAlreadySignIn.collect {
-            if (it != null) {
-                if (it.isNotBlank()) {
-                    Toast.makeText(context, "Already signed in as: $it", Toast.LENGTH_LONG).show()
-                    navController.navigate(route = Screen.MainScreen.route) {
-                        popUpTo(Screen.LoginScreen.route) {
-                            inclusive = true }
-                    }
-                }
-            }
-        }
-    }
     Scaffold(
         topBar = { CustomTopAppBar() }
     ) {

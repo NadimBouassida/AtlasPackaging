@@ -8,8 +8,9 @@ import javax.inject.Named
 
 class RemoteDataRepoImp @Inject constructor(
     @Named("db") private val db: FirebaseDatabase,
-    @Named("auth") private val auth: FirebaseAuth
+    @Named("auth") private val fbAuth: FirebaseAuth
 ) : RemoteDataRepo {
+    override val auth = fbAuth
     override fun signOut() {
         auth.signOut()
     }
