@@ -7,7 +7,7 @@ class ValidatePassword @Inject constructor() {
         return if (password.isBlank()) {
             ValidationResult(
                 successful = false,
-                errorMessage = "Password field can't be blank!"
+                errorMessage = "Password field is blank!"
             )
         }
         else ValidationResult(true)

@@ -4,11 +4,11 @@ import android.util.Patterns
 import javax.inject.Inject
 
 class ValidateEmail @Inject constructor() {
-    fun execute (email: String) : ValidationResult {
+    fun execute(email: String): ValidationResult {
         return if (email.isBlank()) {
             ValidationResult(
                 successful = false,
-                errorMessage = "Email is blank!"
+                errorMessage = "Email field is blank!"
             )
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             ValidationResult(

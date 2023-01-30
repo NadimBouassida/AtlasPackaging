@@ -1,8 +1,6 @@
 package com.nadim.atlaspackaging.login_feature.domain.use_cases
-
-import javax.inject.Inject
-
-data class ValidationResult @Inject constructor(
-    val successful: Boolean,
+data class ValidationResult (
+    val successful: Boolean = false,
+    val errorType: String? = null,
     val errorMessage: String? = null,
 )

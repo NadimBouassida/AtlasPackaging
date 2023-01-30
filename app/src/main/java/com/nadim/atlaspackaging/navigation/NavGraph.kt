@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.nadim.atlaspackaging.archive.presentation.ArchiveScreen
 import com.nadim.atlaspackaging.daily_production.presentation.DailyProductionScreen
-import com.nadim.atlaspackaging.login_feature.presentation.LoginScreen
+import com.nadim.atlaspackaging.daily_production.presentation.presentation.LoginScreen
 import com.nadim.atlaspackaging.machine_feature.presentation.MachineScreen
 import com.nadim.atlaspackaging.main_feature.presentation.MainScreen
 

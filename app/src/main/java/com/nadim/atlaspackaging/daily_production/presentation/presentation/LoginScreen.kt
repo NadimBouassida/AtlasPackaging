@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.login_feature.presentation
+package com.nadim.atlaspackaging.daily_production.presentation.presentation
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
@@ -29,25 +29,27 @@ import com.nadim.atlaspackaging.ui.general_components.CustomTopAppBar
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginScreenViewModel = hiltViewModel(),
-){
+) {
     val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
-        if (viewModel.user != null){
-            Toast.makeText(context, "Already signed in as: ${viewModel.user.email}", Toast.LENGTH_LONG).show()
+        if (viewModel.user != null) {
+            Toast.makeText(context, "Signed in as: ${viewModel.user.email}", Toast.LENGTH_LONG)
+                .show()
             navController.navigate(route = Screen.MainScreen.route) {
                 popUpTo(Screen.LoginScreen.route) {
-                    inclusive = true }
+                    inclusive = true
+                }
             }
         }
         viewModel.signInResult.collect { event ->
             when (event) {
-                is LoginScreenViewModel.SignInEventResponse.Success -> {
+                is LoginScreenViewModel.SignInResult.Success -> {
                     navController.navigate(route = Screen.MainScreen.route) {
                         popUpTo(Screen.LoginScreen.route) { inclusive = true }
                     }
                 }
-                is LoginScreenViewModel.SignInEventResponse.Failure -> {
+                is LoginScreenViewModel.SignInResult.Failure -> {
                     Toast.makeText(context, event.errorMessage, Toast.LENGTH_LONG).show()
                 }
             }
@@ -64,8 +66,10 @@ fun LoginScreen(
             elevation = 10.dp,
             border = BorderStroke(width = 3.dp, color = MaterialTheme.colors.primary)
         ) {
-            Column(modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.atlas),
                     contentDescription = "logo",
@@ -82,10 +86,31 @@ fun LoginScreen(
                 )
                 Credentials(
                     state = viewModel.state,
-                    onEmailValueChange = {viewModel.onEvent(LoginScreenEvent.OnEmailValueChange(it))},
-                    onPasswordValueChange = {viewModel.onEvent(LoginScreenEvent.OnPasswordValueChange(it))},
-                    onVisibilityToggle = {viewModel.onEvent(LoginScreenEvent.OnVisibilityToggle)},
-                    onSignIn = {viewModel.onEvent(LoginScreenEvent.OnSignIn)}
+                    onEmailValueChange = {
+                        viewModel.onEvent(
+                            LoginScreenEvent.OnEmailValueChangeEvent(
+                                it
+                            )
+                        )
+                    },
+                    onPasswordValueChange = {
+                        viewModel.onEvent(
+                            LoginScreenEvent.OnPasswordValueChangeEvent(
+                                it
+                            )
+                        )
+                    },
+                    onVisibilityToggle = { viewModel.onEvent(LoginScreenEvent.OnVisibilityToggleEvent) },
+                    onSignIn = {
+                        viewModel.signInWithEmailAndPassword(
+                            viewModel.state.email,
+                            viewModel.state.password
+                        )
+                    },
+                    onEmailError = { viewModel.onEvent(LoginScreenEvent.OnEmailErrorEvent) },
+                    onPasswordError = {
+                        viewModel.onEvent(LoginScreenEvent.OnPasswordErrorEvent)
+                    }
                 )
             }
         }
@@ -94,8 +119,8 @@ fun LoginScreen(
 
 @Preview
 @Composable
-fun LoginScreenPreview(){
-    Box(modifier = Modifier.background(Color.White)){
+fun LoginScreenPreview() {
+    Box(modifier = Modifier.background(Color.White)) {
         val navController: NavController = rememberNavController()
         LoginScreen(navController = navController)
     }

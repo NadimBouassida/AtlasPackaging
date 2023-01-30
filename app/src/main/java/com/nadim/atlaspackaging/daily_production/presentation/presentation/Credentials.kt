@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.login_feature.presentation
+package com.nadim.atlaspackaging.daily_production.presentation.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +25,8 @@ fun Credentials(
     onPasswordValueChange: (it: String) -> Unit,
     onVisibilityToggle: () -> Unit,
     onSignIn: () -> Unit,
+    onEmailError: () -> Unit,
+    onPasswordError: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -33,7 +35,7 @@ fun Credentials(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val icon = if (state.isVisible) painterResource(id = R.drawable.ic_visibility_on)
+        val icon = if (state.isPasswordVisible) painterResource(id = R.drawable.ic_visibility_on)
         else painterResource(id = R.drawable.ic_visibility_off)
         // Email Text Field
         OutlinedTextField(
@@ -41,16 +43,18 @@ fun Credentials(
             value = state.email,
             label = { Text(text = "Email") },
             placeholder = { Text(text = "Email") },
-            onValueChange = {onEmailValueChange(it)},
+            onValueChange = {
+                onEmailValueChange(it)
+                onEmailError()
+            },
             isError = state.emailError != null,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         )
         if (state.emailError != null) {
             Text(
-                modifier = Modifier.fillMaxWidth(), text = state.emailError!!,
+                modifier = Modifier.fillMaxWidth(), text = state.emailError,
                 color = MaterialTheme.colors.error, textAlign = TextAlign.End
             )
-            state.emailError = null
         }
         Spacer(modifier = Modifier.height(16.dp))
         // PasswordTextField
@@ -59,9 +63,12 @@ fun Credentials(
             value = state.password,
             label = { Text(text = "Password") },
             placeholder = { Text(text = "Password") },
-            onValueChange = {onPasswordValueChange(it)} ,
+            onValueChange = {
+                onPasswordValueChange(it)
+                onPasswordError()
+            },
             isError = state.passwordError != null,
-            visualTransformation = if (state.isVisible) VisualTransformation.None
+            visualTransformation = if (state.isPasswordVisible) VisualTransformation.None
                                    else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
@@ -75,11 +82,10 @@ fun Credentials(
         if (state.passwordError != null) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = state.passwordError!!,
+                text = state.passwordError,
                 color = MaterialTheme.colors.error,
                 textAlign = TextAlign.End
             )
-            state.passwordError = null
         }
         Spacer(modifier = Modifier.height(20.dp))
         // Sign In Button
@@ -106,7 +112,9 @@ fun CredentialsPreview(){
             onEmailValueChange = {},
             onPasswordValueChange = {},
             onVisibilityToggle = {},
-            onSignIn = {}
+            onSignIn = {},
+            onEmailError = {},
+            onPasswordError = {},
         )
     }
 }
