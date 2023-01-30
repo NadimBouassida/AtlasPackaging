@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production.presentation.presentation
+package com.nadim.atlaspackaging.login_feature.presentation
 
 sealed class LoginScreenEvent {
     data class OnEmailValueChangeEvent(val email: String) : LoginScreenEvent()

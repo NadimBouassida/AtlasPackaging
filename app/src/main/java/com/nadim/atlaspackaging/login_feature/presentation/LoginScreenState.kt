@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.daily_production.presentation.presentation
+package com.nadim.atlaspackaging.login_feature.presentation
 
 data class LoginScreenState (
     val email: String = "",

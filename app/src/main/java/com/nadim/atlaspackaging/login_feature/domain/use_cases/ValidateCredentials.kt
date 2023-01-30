@@ -1,6 +1,6 @@
 package com.nadim.atlaspackaging.login_feature.domain.use_cases
 
-import com.nadim.atlaspackaging.daily_production.presentation.presentation.LoginScreenState
+import com.nadim.atlaspackaging.login_feature.presentation.LoginScreenState
 import javax.inject.Inject
 
 class ValidateCredentials @Inject constructor (
