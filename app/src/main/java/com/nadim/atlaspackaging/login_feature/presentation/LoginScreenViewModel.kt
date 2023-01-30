@@ -4,11 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.nadim.atlaspackaging.domain.RemoteDataRepo
 import com.nadim.atlaspackaging.login_feature.domain.use_cases.ValidateCredentials
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import javax.inject.Inject
@@ -55,19 +53,7 @@ class LoginScreenViewModel @Inject constructor(
         val proceedToSignIn =
             validateCredentials.emailError == null && validateCredentials.passwordError == null
         if (proceedToSignIn) {
-            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                viewModelScope.launch {
-                    withContext(Dispatchers.Default) {
-                        signInResultChannel.send(SignInResult.Success)
-                    }
-                }
-            }.addOnFailureListener {
-                viewModelScope.launch {
-                    withContext(Dispatchers.Default) {
-                        signInResultChannel.send(SignInResult.Failure(it.localizedMessage))
-                    }
-                }
-            }
+
         }
 
     }
