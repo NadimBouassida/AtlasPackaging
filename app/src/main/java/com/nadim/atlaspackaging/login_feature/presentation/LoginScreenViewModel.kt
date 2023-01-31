@@ -14,15 +14,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
-    private val validateCredentials: ValidateCredentials, remoteDataRepo: RemoteDataRepo
+    private val validateCredentials: ValidateCredentials,
+    repo: RemoteDataRepo
 ) : ViewModel() {
     var state by mutableStateOf(LoginScreenState())
 
-    private val auth = remoteDataRepo.auth
-    val user = auth.currentUser
+    val user = repo.user
 
     private val signInResultChannel = Channel<SignInResult>()
     val signInResult = signInResultChannel.consumeAsFlow()
+
     fun onEvent(event: LoginScreenEvent) {
         when (event) {
             is LoginScreenEvent.OnEmailValueChangeEvent -> {
@@ -44,7 +45,7 @@ class LoginScreenViewModel @Inject constructor(
         }
     }
 
-    fun signInWithEmailAndPassword(email: String, password: String) {
+    fun signIn(email: String, password: String) {
         val validateCredentials = validateCredentials.execute(email = email, password = password)
         state = state.copy(
             emailError = validateCredentials.emailError,

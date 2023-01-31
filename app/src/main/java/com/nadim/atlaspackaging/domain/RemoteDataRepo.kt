@@ -1,18 +1,13 @@
 package com.nadim.atlaspackaging.domain
 
 import com.google.firebase.auth.FirebaseAuth
-import com.nadim.atlaspackaging.login_feature.presentation.LoginScreenViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.Channel
+import com.google.firebase.auth.FirebaseUser
+
 
 interface RemoteDataRepo {
     val auth : FirebaseAuth
+    val user: FirebaseUser? get() = auth.currentUser
     fun signOut()
 
-    fun signInWithEmailAndPassword(
-        email: String,
-        password: String,
-        scope: CoroutineScope,
-        channel: Channel<LoginScreenViewModel.SignInResult>,
-    )
+    suspend  fun signIn(email: String, password: String)
 }

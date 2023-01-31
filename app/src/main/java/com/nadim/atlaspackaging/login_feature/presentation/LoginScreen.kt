@@ -102,7 +102,7 @@ fun LoginScreen(
                     },
                     onVisibilityToggle = { viewModel.onEvent(LoginScreenEvent.OnVisibilityToggleEvent) },
                     onSignIn = {
-                        viewModel.signInWithEmailAndPassword(
+                        viewModel.signIn(
                             viewModel.state.email,
                             viewModel.state.password
                         )
