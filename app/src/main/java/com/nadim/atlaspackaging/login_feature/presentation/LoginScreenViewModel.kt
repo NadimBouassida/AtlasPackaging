@@ -4,21 +4,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.nadim.atlaspackaging.domain.RemoteDataRepo
+import androidx.lifecycle.viewModelScope
+import com.nadim.atlaspackaging.domain.AuthRepo
 import com.nadim.atlaspackaging.login_feature.domain.use_cases.ValidateCredentials
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     private val validateCredentials: ValidateCredentials,
-    repo: RemoteDataRepo
+    private val repo: AuthRepo
 ) : ViewModel() {
     var state by mutableStateOf(LoginScreenState())
-
     val user = repo.user
 
     private val signInResultChannel = Channel<SignInResult>()
@@ -35,7 +38,6 @@ class LoginScreenViewModel @Inject constructor(
             is LoginScreenEvent.OnVisibilityToggleEvent -> {
                 state = state.copy(isPasswordVisible = !state.isPasswordVisible)
             }
-
             is LoginScreenEvent.OnEmailErrorEvent -> {
                 state = state.copy(emailError = null)
             }
@@ -54,9 +56,12 @@ class LoginScreenViewModel @Inject constructor(
         val proceedToSignIn =
             validateCredentials.emailError == null && validateCredentials.passwordError == null
         if (proceedToSignIn) {
-
+           viewModelScope.launch {
+               withContext(Dispatchers.Default){
+                   repo.signIn(email,password,signInResultChannel,viewModelScope)
+               }
+           }
         }
-
     }
 
     sealed class SignInResult {

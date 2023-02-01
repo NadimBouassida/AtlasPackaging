@@ -15,7 +15,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.nadim.atlaspackaging.domain.RemoteDataRepo
+import com.nadim.atlaspackaging.domain.AuthRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +26,7 @@ import javax.inject.Named
 class MainScreenViewModel @Inject constructor (
     @Named("db") private val db: FirebaseDatabase,
     @Named("auth") private val auth: FirebaseAuth,
-    private val remoteDataRepo: RemoteDataRepo
+    private val remoteDataRepo: AuthRepo
         ) : ViewModel() {
 
     // the list is located on the firebase realtime database so it will be easy

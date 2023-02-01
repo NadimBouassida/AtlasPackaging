@@ -2,6 +2,8 @@ package com.nadim.atlaspackaging
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.nadim.atlaspackaging.data.AuthRepoImp
+import com.nadim.atlaspackaging.domain.AuthRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +25,7 @@ object AppModule {
     @Named("db")
     fun provideDatabaseInstance() =  FirebaseDatabase.getInstance()
 
+    @Singleton
+    @Provides
+    fun provideRemoteRepo(authRepoImp: AuthRepoImp): AuthRepo = authRepoImp
 }
