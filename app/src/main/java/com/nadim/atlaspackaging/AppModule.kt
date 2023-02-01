@@ -27,5 +27,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRemoteRepo(authRepoImp: AuthRepoImp): AuthRepo = authRepoImp
+    fun provideAuthRepo(authRepoImp: AuthRepoImp): AuthRepo = authRepoImp
 }
