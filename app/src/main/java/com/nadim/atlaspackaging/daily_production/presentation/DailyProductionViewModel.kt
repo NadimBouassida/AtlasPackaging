@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
 import com.nadim.atlaspackaging.daily_production.domain.DatePicker
 import com.nadim.atlaspackaging.domain.AuthRepo
-import com.nadim.atlaspackaging.models.ProductionData
+import com.nadim.atlaspackaging.domain.models.ProductionData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,18 +51,18 @@ class DailyProductionViewModel @Inject constructor (
         dataState = dataState.copy(machine= _machine)
     }
 
-    fun onEvent(event: Events, string: String){
+    fun onEvent(event: DailyProductionEvents, string: String){
         when(event){
-            is Events.DateChange -> dataState = dataState.copy(date = _date.value )
-            is Events.ConductorChange -> dataState = dataState.copy(conductor = string )
-            is Events.PostChange -> dataState = dataState.copy(post = string)
-            is Events.ArticleChange -> dataState = dataState.copy(article = string)
-            is Events.ClientChange -> dataState = dataState.copy(client = string)
-            is Events.LotChange -> dataState = dataState.copy(lot = string)
-            is Events.ProductionChange -> dataState = dataState.copy(production = string)
-            is Events.WasteChange -> dataState = dataState.copy(waste = string)
-            is Events.CommentaryChange -> dataState = dataState.copy(commentary = string)
-            is Events.Submit -> onSubmitClicked()
+            is DailyProductionEvents.DateChange -> dataState = dataState.copy(date = _date.value )
+            is DailyProductionEvents.ConductorChange -> dataState = dataState.copy(conductor = string )
+            is DailyProductionEvents.PostChange -> dataState = dataState.copy(post = string)
+            is DailyProductionEvents.ArticleChange -> dataState = dataState.copy(article = string)
+            is DailyProductionEvents.ClientChange -> dataState = dataState.copy(client = string)
+            is DailyProductionEvents.LotChange -> dataState = dataState.copy(lot = string)
+            is DailyProductionEvents.ProductionChange -> dataState = dataState.copy(production = string)
+            is DailyProductionEvents.WasteChange -> dataState = dataState.copy(waste = string)
+            is DailyProductionEvents.CommentaryChange -> dataState = dataState.copy(commentary = string)
+            is DailyProductionEvents.Submit -> onSubmitClicked()
         }
     }
 
@@ -135,7 +135,7 @@ class DailyProductionViewModel @Inject constructor (
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         val date = Date().time
         val time = sdf.format(date).toString()
-        onEvent(Events.DateChange,_date.value)
+        onEvent(DailyProductionEvents.DateChange,_date.value)
         dataState = dataState.copy(
             time = time,
             date = dataState.date.replace("/", "-")

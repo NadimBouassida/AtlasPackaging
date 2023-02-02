@@ -1,4 +1,4 @@
-package com.nadim.atlaspackaging.models
+package com.nadim.atlaspackaging.domain.models
 
 data class ProductionData(
     val date: String = "",

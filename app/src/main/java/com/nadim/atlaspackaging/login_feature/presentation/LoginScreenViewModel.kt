@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -56,10 +55,8 @@ class LoginScreenViewModel @Inject constructor(
         val proceedToSignIn =
             validateCredentials.emailError == null && validateCredentials.passwordError == null
         if (proceedToSignIn) {
-           viewModelScope.launch {
-               withContext(Dispatchers.Default){
-                   repo.signIn(email,password,signInResultChannel,viewModelScope)
-               }
+           viewModelScope.launch (Dispatchers.Default){
+               repo.signIn(email,password,signInResultChannel,viewModelScope)
            }
         }
     }

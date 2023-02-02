@@ -21,10 +21,10 @@ import com.nadim.atlaspackaging.R
 
 @Composable
 fun SectionItem(
-    machine : String,
+    machine: String,
     onClick: () -> Unit,
-){
-    Card (
+) {
+    Card(
         modifier = Modifier
             .clickable { onClick() }
             .padding(10.dp),
@@ -32,8 +32,10 @@ fun SectionItem(
         shape = RoundedCornerShape(15.dp),
         backgroundColor = Color.White,
     ) {
-        Column(modifier = Modifier.fillMaxWidth(),verticalArrangement = Arrangement.Center,
-         horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Spacer(modifier = Modifier.padding(10.dp))
             Image(
                 modifier = Modifier.height(120.dp),
@@ -46,11 +48,13 @@ fun SectionItem(
                     .fillMaxWidth()
                     .height(60.dp)
                     .background(Color.Black.copy(alpha = .3f)),
-                ) {
-                    Text(modifier = Modifier
-                            .align(Alignment.TopCenter),
+            ) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter),
                     text = "Suivie de production $machine", style = MaterialTheme.typography.h5,
-                    color = Color.White)
+                    color = Color.White
+                )
             }
         }
     }
@@ -58,18 +62,18 @@ fun SectionItem(
 
 @Preview
 @Composable
-fun SectionItemPreview(){
+fun SectionItemPreview() {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-            item {
-                SectionItem(machine = "Flexo") {
+    ) {
+        item {
+            SectionItem(machine = "Flexo") {
             }
-                SectionItem(machine = "Decoupe1") {
+            SectionItem(machine = "Decoupe1") {
             }
-                SectionItem(machine = "Sealer") {
+            SectionItem(machine = "Sealer") {
             }
         }
 

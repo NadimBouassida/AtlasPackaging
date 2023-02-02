@@ -3,7 +3,9 @@ package com.nadim.atlaspackaging
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.nadim.atlaspackaging.data.AuthRepoImp
+import com.nadim.atlaspackaging.data.ProductionDataRepoImp
 import com.nadim.atlaspackaging.domain.AuthRepo
+import com.nadim.atlaspackaging.domain.ProductionDataRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +30,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideAuthRepo(authRepoImp: AuthRepoImp): AuthRepo = authRepoImp
+
+    @Singleton
+    @Provides
+    fun provideProductionDataRepo(productionDataRepoImp: ProductionDataRepoImp) : ProductionDataRepo = productionDataRepoImp
 }

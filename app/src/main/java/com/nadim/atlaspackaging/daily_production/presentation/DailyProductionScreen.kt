@@ -177,11 +177,11 @@ fun DailyProductionScreen(
                 showTrailingIcon = false, numbersOnly = true, maxLines = 1,
                 onValueChange = {
                     if (it.length < 6){
-                        viewModel.onEvent(Events.LotChange, it)
+                        viewModel.onEvent(DailyProductionEvents.LotChange, it)
                     }
                     if(it.length >= 6) {
                         val quantity = it.dropLast(it.length-6)
-                        viewModel.onEvent(Events.LotChange,quantity)
+                        viewModel.onEvent(DailyProductionEvents.LotChange,quantity)
                 }
             })
 
@@ -192,11 +192,11 @@ fun DailyProductionScreen(
                 numbersOnly = true,
             ) {
                 if (it.length < 6){
-                    viewModel.onEvent(Events.ProductionChange,it)
+                    viewModel.onEvent(DailyProductionEvents.ProductionChange,it)
                 }
                 if(it.length >= 6) {
                     val quantity = it.dropLast(it.length-6)
-                    viewModel.onEvent(Events.ProductionChange,quantity)
+                    viewModel.onEvent(DailyProductionEvents.ProductionChange,quantity)
                 }
             }
 
@@ -207,11 +207,11 @@ fun DailyProductionScreen(
                 numbersOnly = true,
                 onValueChange = {
                     if (it.length < 6){
-                        viewModel.onEvent(Events.WasteChange,it)
+                        viewModel.onEvent(DailyProductionEvents.WasteChange,it)
                     }
                     if(it.length >= 6) {
                         val quantity = it.dropLast(it.length-6)
-                        viewModel.onEvent(Events.WasteChange, quantity)
+                        viewModel.onEvent(DailyProductionEvents.WasteChange, quantity)
                     }
                 }
             )
@@ -221,14 +221,14 @@ fun DailyProductionScreen(
                 order = 8,
                 label = "Commentary",
                 maxLines = 10,
-                onValueChange = { viewModel.onEvent(Events.CommentaryChange,it) }
+                onValueChange = { viewModel.onEvent(DailyProductionEvents.CommentaryChange,it) }
             )
 
             Button(
                 modifier = Modifier.padding(bottom = 20.dp),
                 colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme
                     .colors.background),
-                onClick = {viewModel.onEvent(Events.Submit,"")}
+                onClick = {viewModel.onEvent(DailyProductionEvents.Submit,"")}
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -251,7 +251,7 @@ fun DailyProductionScreen(
                         showConductorsList = false
                     },
                     onItemClick = {
-                        viewModel.onEvent(Events.ConductorChange,it)
+                        viewModel.onEvent(DailyProductionEvents.ConductorChange,it)
                         showConductorsList = false
                     },
                     itemsList = viewModel.conductorsList,
@@ -265,7 +265,7 @@ fun DailyProductionScreen(
                     offset = postListOffset,
                     onIconClick = { showPostList = false },
                     onItemClick = {
-                        viewModel.onEvent(Events.PostChange, it)
+                        viewModel.onEvent(DailyProductionEvents.PostChange, it)
                         showPostList = false
                     },
                     itemsList = listOf("1","2","3"),
@@ -279,7 +279,7 @@ fun DailyProductionScreen(
                     offset = clientsListOffset,
                     onIconClick = { showClientsList = false },
                     onItemClick = {
-                        viewModel.onEvent(Events.ClientChange, it)
+                        viewModel.onEvent(DailyProductionEvents.ClientChange, it)
                         showClientsList = false
                     },
                     itemsList = viewModel.clientList,
@@ -293,7 +293,7 @@ fun DailyProductionScreen(
                     offset = articlesListOffset,
                     onIconClick = { showArticlesList = false },
                     onItemClick = {
-                        viewModel.onEvent(Events.ArticleChange, it)
+                        viewModel.onEvent(DailyProductionEvents.ArticleChange, it)
                         showArticlesList = false
                     },
                     itemsList = viewModel.articlesList,

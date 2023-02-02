@@ -20,7 +20,7 @@ fun MainScreen(
     Scaffold(
         topBar = { CustomTopAppBar() },
         floatingActionButton = {
-            LogOutFloatingAction(logout = {viewModel.logOut()}, navController = navController)
+            LogOutFloatingAction(logout = { viewModel.logOut() }, navController = navController)
         }
     ) {
         LazyColumn(
@@ -29,17 +29,17 @@ fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(viewModel.machineList.size) {
-                SectionItem(machine = viewModel.machineList[it]) {
-                    // onClick function for selected item
-                    if(
-                        viewModel.machineList[it].dropLast(1) in viewModel.user.value
-                        || viewModel.user.value == "Admin"
-                    ){
-                        navController.navigate(
-                            route = "machine_screen?machine=${viewModel.machineList[it]}"
-                        )
+                SectionItem(
+                    machine = viewModel.machineList[it],
+                    onClick = {
+                        if (viewModel.machineList[it].dropLast(1) in viewModel.user.value
+                            || viewModel.user.value == "Admin"){
+                            navController.navigate(
+                                route = "machine_screen?machine=${viewModel.machineList[it]}"
+                            )
+                        }
                     }
-                }
+                )
             }
         }
     }

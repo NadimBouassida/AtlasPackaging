@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
 import com.nadim.atlaspackaging.domain.AuthRepo
-import com.nadim.atlaspackaging.models.ProductionData
+import com.nadim.atlaspackaging.domain.models.ProductionData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
